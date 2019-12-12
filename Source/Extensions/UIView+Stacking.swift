@@ -8,7 +8,7 @@
 
 import UIKit
 
-@available(iOS 11.0, tvOS 11.0, *)
+@available(iOS 10.0, *)
 extension UIView {
     
     fileprivate func _stack(_ axis: NSLayoutConstraint.Axis = .vertical, views: [UIView], spacing: CGFloat = 0, alignment: UIStackView.Alignment = .fill, distribution: UIStackView.Distribution = .fill) -> UIStackView {
@@ -81,3 +81,4 @@ extension UIImageView {
         self.clipsToBounds = true
     }
 }
+
