@@ -108,13 +108,25 @@ extension UIView {
     @discardableResult
     open func fillSuperviewSafeAreaLayoutGuide(padding: UIEdgeInsets = .zero) -> AnchoredConstraints {
         let anchoredConstraints = AnchoredConstraints()
-        guard let superviewTopAnchor = superview?.safeAreaLayoutGuide.topAnchor,
-            let superviewBottomAnchor = superview?.safeAreaLayoutGuide.bottomAnchor,
-            let superviewLeadingAnchor = superview?.safeAreaLayoutGuide.leadingAnchor,
-            let superviewTrailingAnchor = superview?.safeAreaLayoutGuide.trailingAnchor else {
-                return anchoredConstraints
+        if #available(iOS 11, *) {
+            guard let superviewTopAnchor = superview?.safeAreaLayoutGuide.topAnchor,
+                let superviewBottomAnchor = superview?.safeAreaLayoutGuide.bottomAnchor,
+                let superviewLeadingAnchor = superview?.safeAreaLayoutGuide.leadingAnchor,
+                let superviewTrailingAnchor = superview?.safeAreaLayoutGuide.trailingAnchor else {
+                    return anchoredConstraints
+            }
+            
+            return anchor(top: superviewTopAnchor, leading: superviewLeadingAnchor, bottom: superviewBottomAnchor, trailing: superviewTrailingAnchor, padding: padding)
+        } else {
+            guard let superviewTopAnchor = superview?.topAnchor,
+                let superviewBottomAnchor = superview?.bottomAnchor,
+                let superviewLeadingAnchor = superview?.leadingAnchor,
+                let superviewTrailingAnchor = superview?.trailingAnchor else {
+                    return anchoredConstraints
+            }
+            
+            return anchor(top: superviewTopAnchor, leading: superviewLeadingAnchor, bottom: superviewBottomAnchor, trailing: superviewTrailingAnchor, padding: padding)
         }
-        return anchor(top: superviewTopAnchor, leading: superviewLeadingAnchor, bottom: superviewBottomAnchor, trailing: superviewTrailingAnchor, padding: padding)
     }
     
     open func centerInSuperview(size: CGSize = .zero) {
